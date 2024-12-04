@@ -2,34 +2,22 @@ import Shared
 import SwiftUI
 
 struct ContentView: View {
-    @State private var showContent = false
+    @State private var isSplashVisible = true
     var body: some View {
-        ZStack {
-            Image(.logo)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(maxWidth: .infinity)
+        if isSplashVisible {
+            SplashView()
+                .onAppear {
+                    // 스플래시 진입 후 1초 뒤 메인화면으로 이동
+                    Timer.scheduledTimer(withTimeInterval: 1, repeats: false) { _ in
+                        withAnimation {
+                            isSplashVisible = false
+                        }
+                    }
+                    
+                }
+        } else {
+            MainView()
         }
-
-//        VStack {
-//            Button("Click me!") {
-//                withAnimation {
-//                    showContent = !showContent
-//                }
-//            }
-//
-//            if showContent {
-//                VStack(spacing: 16) {
-//                    Image(systemName: "swift")
-//                        .font(.system(size: 200))
-//                        .foregroundColor(.accentColor)
-//                    Text("SwiftUI: \(Greeting().greet())")
-//                }
-//                .transition(.move(edge: .top).combined(with: .opacity))
-//            }
-//        }
-//        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-//        .padding()
     }
 }
 
